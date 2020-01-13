@@ -63,7 +63,7 @@ functions:
     events:
       - http:
           path: send-batch-jobs
-          method: post
+          method: get
           cors: true
   on-batch-job-created:
     handler: src/onBatchJobCreated.default

@@ -101,4 +101,8 @@
 
 - `GET /send-batch-jobs`:
 
+  - 응답코드
+
 - `POST /on-batch-job-created`
+  - 필수 입력 필드:
+  - 응답코드
