@@ -1,0 +1,94 @@
+service: elk
+
+package:
+  individually: false
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  # If you want to change to a different AWS profile
+  # from ~/.aws/credentials, you can do so here
+  profile: <PROFILE_NAME>
+  region: <REGION>
+  stage: production
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource: '*'
+
+custom:
+  dotenv:
+    include:
+      - QUEUE_URL`
+  webpackIncludeModules: true # Node modules configuration for packaging
+  webpack:
+    webpackConfig: ./webpack.config.js # Name of webpack configuration file
+    packager: 'npm' # Packager that will be used to package your external modules
+  warmup:
+    enabled: true # Whether to warm up functions by default or not
+    events:
+      - schedule: rate(5 minutes)
+    prewarm: true # Run WarmUp immediately after a deployment
+    concurrency: 1
+
+  # you can add statements to the Lambda function's IAM Role here
+  # iamRoleStatements:
+  #   - Effect: 'Allow'
+  #     Action:
+  #       - 's3:ListBucket'
+  #       - 's3:PutObject'
+  #     Resource: "*"
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+# you can add packaging information here
+#package:
+#  include:
+#    - include-me.js
+#    - include-me-dir/**
+#  exclude:
+#    - exclude-me.js
+#    - exclude-me-dir/**
+
+functions:
+  send-batch-job:
+    handler: src/sendBatchJobs.default
+    events:
+      - http:
+          path: send-batch-jobs
+          method: post
+          cors: true
+  on-batch-job-created:
+    handler: src/onBatchJobCreated.default
+    events:
+      - http:
+          path: on-batch-job-created
+          method: post
+          cors: true
+      - sqs: ${SQS_ARN}
+
+# you can add CloudFormation resource templates here
+# resources:
+#  Resources:
+#    NewResource:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: my-new-bucket
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-plugin-warmup
+  - serverless-dotenv-plugin
+  - serverless-plugin-existing-s3
