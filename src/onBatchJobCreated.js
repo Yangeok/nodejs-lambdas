@@ -38,7 +38,7 @@ const deleteJob = async params => {
 const onBatchJobCreated = async (event, context) => {
   const params = {
     QueueUrl,
-    MaxNumberOfMessages: 6,
+    MaxNumberOfMessages: process.env.MAX_NUMBER_OF_MESSAGES,
   }
 
   try {

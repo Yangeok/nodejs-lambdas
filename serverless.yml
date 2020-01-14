@@ -7,24 +7,14 @@ package:
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
 
-provider:
-  name: aws
-  runtime: nodejs12.x
-  # If you want to change to a different AWS profile
-  # from ~/.aws/credentials, you can do so here
-  profile: <PROFILE_NAME>
-  region: <REGION>
-  stage: production
-  iamRoleStatements:
-    - Effect: 'Allow'
-      Action:
-        - 'lambda:InvokeFunction'
-      Resource: '*'
-
 custom:
   dotenv:
     include:
-      - QUEUE_URL`
+      - QUEUE_URL
+      - SQS_ARN
+      - MAX_NUMBER_OF_MESSAGES
+      - PROFILE_NAME
+      - REGION
   webpackIncludeModules: true # Node modules configuration for packaging
   webpack:
     webpackConfig: ./webpack.config.js # Name of webpack configuration file
@@ -35,6 +25,20 @@ custom:
       - schedule: rate(5 minutes)
     prewarm: true # Run WarmUp immediately after a deployment
     concurrency: 1
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  # If you want to change to a different AWS profile
+  # from ~/.aws/credentials, you can do so here
+  profile: ${env:PROFILE_NAME}
+  region: ${env:REGION}
+  stage: production
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource: '*'
 
   # you can add statements to the Lambda function's IAM Role here
   # iamRoleStatements:
@@ -70,9 +74,9 @@ functions:
     events:
       - http:
           path: on-batch-job-created
-          method: post
+          method: get
           cors: true
-      - sqs: ${SQS_ARN}
+      - sqs: ${env:SQS_ARN}
 
 # you can add CloudFormation resource templates here
 # resources:
