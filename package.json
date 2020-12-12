@@ -12,13 +12,13 @@
     "build-win": "cross-env SLS_DEBUG=* sls webpack"
   },
   "devDependencies": {
-    "@babel/core": "7.3.3",
-    "@babel/preset-env": "7.3.1",
-    "@babel/preset-typescript": "^7.3.3",
+    "@babel/core": "7.12.10",
+    "@babel/preset-env": "7.12.10",
+    "@babel/preset-typescript": "7.12.7",
     "@typescript-eslint/eslint-plugin": "^2.4.0",
     "@typescript-eslint/parser": "^1.6.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "8.2.2",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-import-resolver-typescript": "^1.1.1",
