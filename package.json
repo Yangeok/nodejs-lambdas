@@ -45,7 +45,7 @@
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
     "moment-timezone": "^0.5.27",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "prettier": "^1.18.2",
     "s3-upload-stream": "^1.0.7",
     "serverless-plugin-existing-s3": "^2.3.3",
