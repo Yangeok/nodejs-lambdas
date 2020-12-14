@@ -40,7 +40,7 @@
     "aws-sdk": "^2.441.0",
     "cross-env": "^6.0.3",
     "debug": "^4.1.1",
-    "eslint-config-prettier": "^6.4.0",
+    "eslint-config-prettier": "^7.0.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
